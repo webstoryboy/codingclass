@@ -56,6 +56,6 @@ https://webstoryboy.github.io/codingclass/javascript/effect/parallaxEffect05.htm
 https://webstoryboy.github.io/codingclass/javascript/effect/parallaxEffect06.html   
 https://webstoryboy.github.io/codingclass/javascript/effect/parallaxEffect07.html   
 
-## 게임 이페그
+## 게임 이펙트
 https://webstoryboy.github.io/codingclass/javascript/effect/gameEffect.html
 
