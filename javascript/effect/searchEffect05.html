@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>검색 이펙트</title>
+
+    <link rel="stylesheet" href="../assets/css/search.css">
+
+    <link href="https://webfontworld.github.io/tmon/Tmon.css" rel="stylesheet">
+    <link href="https://webfontworld.github.io/NexonLv1Gothic/NexonLv1Gothic.css" rel="stylesheet">
+</head>
+
+<body>
+    <header id="header">
+        <nav>
+            <ul>
+                <li><a href="searchEffect01.html">1</a></li>
+                <li><a href="searchEffect02.html">2</a></li>
+                <li><a href="searchEffect03.html">3</a></li>
+                <li><a href="searchEffect04.html">4</a></li>
+                <li class="active"><a href="searchEffect05.html">5</a></li>
+                <li><a href="searchEffect06.html">6</a></li>
+                <li><a href="searchEffect07.html">7</a></li>
+            </ul>
+        </nav>
+    </header>
+    <!-- //header -->
+
+    <main id="main">
+        <div class="search__wrap">
+            <span>filter()를 이용하여 속성의 중요도 보여주기</span>
+            <h1><a href="searchEffect.html">CSS 속성 검색하기</a></h1>
+
+            <div class="search__click">
+                <ul>
+                    <li data-star="0"><a href="#">☆☆☆☆☆</a></li>
+                    <li data-star="1"><a href="#">★☆☆☆☆</a></li>
+                    <li data-star="2"><a href="#">★★☆☆☆</a></li>
+                    <li data-star="3"><a href="#">★★★☆☆</a></li>
+                    <li data-star="4"><a href="#">★★★★☆</a></li>
+                    <li data-star="5"><a href="#">★★★★★</a></li>
+                </ul>
+                <ul>
+                    <li><a href="#">1개 이상</a></li>
+                    <li><a href="#">2개 이상</a></li>
+                    <li><a href="#">3개 이상</a></li>
+                    <li><a href="#">4개 이상</a></li>
+                </ul>
+            </div>
+
+            <div class="search__info">
+                <div>전체 속성 갯수 : <span class="num">0</span></div>
+            </div>
+
+            <div class="search__list">
+                <ul class="line">
+
+                </ul>
+            </div>
+        </div>
+    </main>
+    <!-- //main -->
+
+    <footer id="footer">
+        <a href="mailto:webstoryboy@naver.com">webstoryboy@naver.com</a>
+    </footer>
+    <!-- //footer -->
+
+
+    <script>
+        const cssProperty = [
+            { star: 1, name: "all", desc: "all 속성은 CSS 속성을 재설정하는데 사용할 수 있는 약식 속성입니다." },
+            { star: 5, name: "animation", desc: "animation 속성은 애니메이션 속성을 설정하기 위한 약식 속성입니다." },
+            { star: 5, name: "animation-delay", desc: "animation-delay 속성은 애니메이션이 시작되는 시간을 설정합니다." },
+            { star: 5, name: "animation-direction", desc: "animation-direction 속성은 애니메이션이 움직이는 방향을 설정합니다." },
+            { star: 5, name: "animation-duration", desc: "animation-duration 속성은 애니메이션이 움직이는 시간을 설정합니다." },
+            { star: 5, name: "animation-fill-mode", desc: "animation-fill-mode 속성은 애니메이션이 끝난 후의 상태를 설정합니다." },
+            { star: 5, name: "animation-iteration-count", desc: "animation-iteration-count 속성은 애니메이션 반복 횟수를 설정합니다." },
+            { star: 5, name: "animation-name", desc: "animation-name 속성은 애니메이션 키프레임 이름을 설정합니다." },
+            { star: 3, name: "animation-play-state", desc: "animation-play-state 속성은 애니메이션의 진행상태를 설정합니다." },
+            { star: 4, name: "backdrop-filter", desc: "backdrop-filter 속성은 요소 뒤에 필터효과를 설정합니다." },
+            { star: 3, name: "backface-visibility", desc: "backface-visibility 속성은 요소 뒷면 출력 여부 설정합니다." },
+            { star: 2, name: "caption-side", desc: "caption-side 속성은 테이블 caption의 위치를 설정합니다." },
+            { star: 0, name: "direction", desc: "direction 속성은 문장의 방향을 설정합니다." },
+            { star: 4, name: "filter", desc: "filter 속성은 그래픽 효과를 설정합니다." },
+            { star: 5, name: "flex", desc: "flex 속성은 콘텐츠의 성질을 flex로 정의합니다." },
+            { star: 5, name: "grid-template-columns", desc: "grid-template-columns 속성은 가로 컬럼의 크기와 위치 설정합니다." },
+        ];
+
+        const searchList = document.querySelector(".search__list ul");
+        const searchClick = document.querySelectorAll(".search__click ul li");
+        const starClick = document.querySelectorAll(".search__click ul li a");
+
+
+        // 출력하기
+        function updateList(list) {
+            listCSS = "";
+
+            for (const data of list) {
+                listStar = starClick[data.star].innerText;
+                listCSS += `<li> ${data.name} : ${data.desc} <em>${listStar}</em></li>`;
+            }
+            searchList.innerHTML = listCSS;
+        }
+        updateList(cssProperty);
+
+        // 클릭하기
+        searchClick.forEach(star => {
+            star.addEventListener("click", () => {
+                const target = star.dataset.star;
+                const filterList = cssProperty.filter(data => data.star == target || data.star >= star.innerText.charAt());
+                updateList(filterList);
+            });
+        });
+
+        // 숫자를 별로 치환해주기!
+        // dataset 안쓰고 가져오는 방법(고민)(index)
+        // 조건문 들어간거 완료하기
+        // 전체 속성 갯수 표시
+    </script>
+
+</body>
+
+</html>

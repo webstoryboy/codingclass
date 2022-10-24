@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const str1 = "javascript reference";
+        const currentStr14 = str1.indexOf("javascript", 0);    //0
+        const currentStr15 = str1.indexOf("javascript", 1);    //-1
+
+        const currentStr16 = str1.lastIndexOf("javascript", 0);    //0  
+        const currentStr17 = str1.lastIndexOf("javascript", 1);    //0  
+        const currentStr18 = str1.lastIndexOf("javascript", 2);    //0  
+        const currentStr19 = str1.lastIndexOf("javascript", 19);    //0  
+        const currentStr20 = str1.lastIndexOf("reference", 0);    //-1  
+        const currentStr21 = str1.lastIndexOf("reference", 1);    //-1  
+        const currentStr22 = str1.lastIndexOf("reference", 11);    //11 
+        const currentStr23 = str1.lastIndexOf("reference", 12);    //11 
+
+        const currentStr30 = str1.lastIndexOf("a", -26);    //0  
+        const currentStr31 = str1.lastIndexOf("javascript", -2);    //0  
+
+        const currentStr32 = str1.lastIndexOf("reference", -1);    //-1  
+        const currentStr33 = str1.lastIndexOf("reference", -2);    //-1  
+
+
+        console.log(currentStr30)
+    </script>
+
+    
+</body>
+</html>

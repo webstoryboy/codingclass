@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>검색 이펙트</title>
+
+    <link rel="stylesheet" href="../assets/css/search.css">
+
+    <link href="https://webfontworld.github.io/tmon/Tmon.css" rel="stylesheet">
+    <link href="https://webfontworld.github.io/NexonLv1Gothic/NexonLv1Gothic.css" rel="stylesheet">
+    <style>
+        .item bold {
+  background-color: #ecf0f1;
+  border: 1px solid #bdc3c7;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="header">
+        <nav>
+            <ul>
+                <li><a href="searchEffect01.html">1</a></li>
+                <li><a href="searchEffect02.html">2</a></li>
+                <li><a href="searchEffect03.html">3</a></li>
+                <li><a href="searchEffect04.html">4</a></li>
+                <li><a href="searchEffect05.html">5</a></li>
+                <li class="active"><a href="searchEffect06.html">6</a></li>
+                <li><a href="searchEffect07.html">7</a></li>
+            </ul>
+        </nav>
+    </header>
+    <!-- //header -->
+
+    <main id="main">
+        <div class="search__wrap">
+            <span>일치하는 단어 검색하기</span>
+            <h1><a href="searchEffect.html">CSS 속성 검색하기</a></h1>
+
+            <div class="search__box">
+                <label for="search">검색하기</label>
+                <input type="text" oninput="highlighter(this)" id="search" placeholder="CSS 속성을 입력해주세요!">
+            </div>
+
+            <div class="search__info">
+                <div>전체 속성 갯수 : <span class="num">0</span></div>
+            </div>
+
+            <div class="search__list">
+                <div class="list">
+                    
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- //main -->
+
+    <footer id="footer">
+        <a href="mailto:webstoryboy@naver.com">webstoryboy@naver.com</a>
+    </footer>
+    <!-- //footer -->
+
+    <script>
+        const cssProperty = [
+            { num: 1, name: "all", desc: "all 속성은 CSS 속성을 재설정하는데 사용할 수 있는 약식 속성입니다." },
+            { num: 2, name: "animation", desc: "animation 속성은 애니메이션 속성을 설정하기 위한 약식 속성입니다." },
+            { num: 3, name: "animation-delay", desc: "animation-delay 속성은 애니메이션이 시작되는 시간을 설정합니다." },
+            { num: 4, name: "animation-direction", desc: "animation-direction 속성은 애니메이션이 움직이는 방향을 설정합니다." },
+            { num: 5, name: "animation-duration", desc: "animation-duration 속성은 애니메이션이 움직이는 시간을 설정합니다." },
+            { num: 6, name: "animation-fill-mode", desc: "animation-fill-mode 속성은 애니메이션이 끝난 후의 상태를 설정합니다." },
+            { num: 7, name: "animation-iteration-count", desc: "animation-iteration-count 속성은 애니메이션 반복 횟수를 설정합니다." },
+            { num: 8, name: "animation-name", desc: "animation-name 속성은 애니메이션 키프레임 이름을 설정합니다." },
+            { num: 9, name: "animation-play-state", desc: "animation-play-state 속성은 애니메이션의 진행상태를 설정합니다." },
+            { num: 10, name: "backdrop-filter", desc: "backdrop-filter 속성은 요소 뒤에 필터효과를 설정합니다." },
+            { num: 11, name: "backface-visibility", desc: "backface-visibility 속성은 요소 뒷면 출력 여부 설정합니다." },
+            { num: 12, name: "caption-side", desc: "caption-side 속성은 테이블 caption의 위치를 설정합니다." },
+            { num: 13, name: "direction", desc: "direction 속성은 문장의 방향을 설정합니다." },
+            { num: 14, name: "filter", desc: "filter 속성은 그래픽 효과를 설정합니다." },
+            { num: 15, name: "flex", desc: "flex 속성은 콘텐츠의 성질을 flex로 정의합니다." },
+            { num: 16, name: "grid-template-columns", desc: "grid-template-columns 속성은 가로 컬럼의 크기와 위치 설정합니다." },
+        ];
+
+        const cssList = document.querySelector(".search__list .list");
+
+        const updateList = () => {
+            let listCSS = "";
+
+            cssProperty.forEach((data, index) => {
+                listCSS += `<li class='item'>${data.num}. ${data.name} : ${data.desc}</li>`;
+            });
+
+            cssList.innerHTML = listCSS;
+        }
+        updateList();
+
+        // 모든 데이터 가져오기
+        const list = document.querySelector(".list").innerHTML;
+
+        function getAllIndexes(str, word) {
+            var indexes = [], i = -1;
+
+            while ((i = str.indexOf(word, i + 1)) != -1) {
+                indexes.push(i);
+            }
+            return indexes;
+        }
+
+        const highlighter = ({ value: inputs }) => {
+        // 공백을 무시하기
+        inputs = inputs.split(" ").filter(x => x.length)
+        
+        // search can not be substring of "<bold> </bold>"
+        inputs = inputs.filter(i => !"<bold> </bold>".includes(i))
+
+        // 중복 제거
+        inputs = inputs.filter( (a, b) => inputs.indexOf(a) === b)
+
+        // reset to original before every change in search
+        document.querySelector(".list").innerHTML = list;
+
+        console.log(list)
+
+        // 빈 입력에는 아무것도 하지 않음
+        if (!inputs.length) {
+            return null;
+        }
+
+        const items = Array.from(document.querySelectorAll(".item"));
+
+        const nodeContainsInput = (node, input) => node.textContent.toLowerCase().includes(input);
+        
+        function nodeContainsInput(node, input){
+
+        }
+
+
+        // if a node has atleast one matching word from its textContent, display it,  else hide
+        const hasInput = node => inputs.some(input => nodeContainsInput(node, input));
+        const hideEm = items.filter(i => !hasInput(i));
+        const showEm = items.filter(i => hasInput(i));
+
+        hideEm.forEach(i => (i.style.display = "none"));
+        showEm.forEach(i => (i.style.display = "block"));
+
+        inputs.forEach(input => {
+            input = input.toLowerCase();
+
+            showEm.forEach(i => {
+            let org = i.innerHTML;
+            const starts = getAllIndexes(org.toLowerCase(), input);
+
+            for (let i = starts.length - 1; i >= 0; i--) {
+                const x = starts[i];
+                const y = x + input.length;
+
+                const part1 = org.substring(0, x);
+                const part2 = org.substring(x, y);
+                const part3 = org.substring(y);
+                org = `${part1}<bold>${part2}</bold>${part3}`;
+            }
+
+            i.innerHTML = org;
+            });
+        });
+        };
+
+
+
+    </script>
+
+</body>
+
+</html>

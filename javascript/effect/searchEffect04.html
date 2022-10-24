@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>검색 이펙트</title>
+
+    <link rel="stylesheet" href="../assets/css/search.css">
+
+    <link href="https://webfontworld.github.io/tmon/Tmon.css" rel="stylesheet">
+    <link href="https://webfontworld.github.io/NexonLv1Gothic/NexonLv1Gothic.css" rel="stylesheet">
+</head>
+
+<body>
+    <header id="header">
+        <nav>
+            <ul>
+                <li><a href="searchEffect01.html">1</a></li>
+                <li><a href="searchEffect02.html">2</a></li>
+                <li><a href="searchEffect03.html">3</a></li>
+                <li class="active"><a href="searchEffect04.html">4</a></li>
+                <li><a href="searchEffect05.html">5</a></li>
+                <li><a href="searchEffect06.html">6</a></li>
+                <li><a href="searchEffect07.html">7</a></li>
+            </ul>
+        </nav>
+    </header>
+    <!-- //header -->
+
+    <main id="main">
+        <div class="search__wrap">
+            <span>find()를 이용하여 속성을 검색하면 설명 보여주기</span>
+            <h1><a href="searchEffect.html">CSS 속성 검색하기</a></h1>
+
+            <div class="search__box">
+                <label for="search">검색하기</label>
+                <input type="text" id="search" placeholder="CSS 속성 및 유형을 입력해주세요!">
+            </div>
+
+            <div class="search__desc">
+                속성을 검색하시면 설명이 표시됩니다.!!!
+            </div>
+
+            <div class="search__info">
+                <div>전체 속성 갯수 : <span class="num">0</span></div>
+            </div>
+
+            <div class="search__list">
+
+            </div>
+        </div>
+    </main>
+    <!-- //main -->
+
+    <footer id="footer">
+        <a href="mailto:webstoryboy@naver.com">webstoryboy@naver.com</a>
+    </footer>
+    <!-- //footer -->
+
+
+    <script>
+        const cssProperty = [
+            { name: "all", desc: "all 속성은 CSS 속성을 재설정하는데 사용할 수 있는 약식 속성입니다." },
+            { name: "animation", desc: "animation 속성은 애니메이션 속성을 설정하기 위한 약식 속성입니다." },
+            { name: "animation-delay", desc: "animation-delay 속성은 애니메이션이 시작되는 시간을 설정합니다." },
+            { name: "animation-direction", desc: "animation-direction 속성은 애니메이션이 움직이는 방향을 설정합니다." },
+            { name: "animation-duration", desc: "animation-duration 속성은 애니메이션이 움직이는 시간을 설정합니다." },
+            { name: "animation-fill-mode", desc: "animation-fill-mode 속성은 애니메이션이 끝난 후의 상태를 설정합니다." },
+            { name: "animation-iteration-count", desc: "animation-iteration-count 속성은 애니메이션 반복 횟수를 설정합니다." },
+            { name: "animation-name", desc: "animation-name 속성은 애니메이션 키프레임 이름을 설정합니다." },
+            { name: "animation-play-state", desc: "animation-play-state 속성은 애니메이션의 진행상태를 설정합니다." },
+            { name: "backdrop-filter", desc: "backdrop-filter 속성은 요소 뒤에 필터효과를 설정합니다." },
+            { name: "backface-visibility", desc: "backface-visibility 속성은 요소 뒷면 출력 여부 설정합니다." },
+            { name: "caption-side", desc: "caption-side 속성은 테이블 caption의 위치를 설정합니다." },
+            { name: "direction", desc: "direction 속성은 문장의 방향을 설정합니다." },
+            { name: "filter", desc: "filter 속성은 그래픽 효과를 설정합니다." },
+            { name: "flex", desc: "flex 속성은 콘텐츠의 성질을 flex로 정의합니다." },
+            { name: "grid-template-columns", desc: "grid-template-columns 속성은 가로 컬럼의 크기와 위치 설정합니다." },
+        ];
+        const searchList = document.querySelector(".search__list");
+        const searchNum = document.querySelector(".search__info .num");
+        const searchBox = document.querySelector(".search__box input");
+        const searchDesc = document.querySelector(".search__desc");
+
+        //출력하기
+        cssProperty.map((element, index) => {
+            searchNum.innerText = index + 1;
+            searchList.innerHTML += `<span>${element.name}</span>`;
+        });
+
+        //입력하기
+        searchBox.addEventListener("keyup", () => {
+            const searchWord = searchBox.value;
+            // console.log(searchWord);
+            findProperty(searchWord);
+        });
+
+        //클릭하기
+        document.querySelectorAll(".search__list span").forEach(span => {
+            span.addEventListener("click", () => {
+                const clickWord = span.innerText;
+                findProperty(clickWord);
+            });
+        })
+
+        //속성 찾기
+        function findProperty(searchData) {
+            const targetData = cssProperty.find((data) => data.name === searchData);
+
+            if (targetData == null) {
+                searchDesc.textContent = "해당 속성은 존재하지 않습니다. 다시 검색해주세요!";
+                return;
+            }
+            searchDesc.textContent = targetData.desc;
+        };
+
+    </script>
+
+</body>
+
+</html>
